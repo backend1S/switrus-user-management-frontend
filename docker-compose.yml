@@ -1,0 +1,12 @@
+# Switrus User Management UI. nginx serves the built app and proxies /api to
+# the backend (project switrus-user-management-backend) at API_UPSTREAM.
+services:
+  web:
+    build: .
+    environment:
+      API_UPSTREAM: ${API_UPSTREAM:-http://host.docker.internal:8001}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"   # lets Linux hosts reach a backend on the same machine
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    restart: unless-stopped
